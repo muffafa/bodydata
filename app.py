@@ -59,5 +59,18 @@ def add_measurement():
     conn.close()
     return jsonify({'status': 'Measurement added successfully'})
 
-if __name__ == '__main__':
+@app.route('/calculate_male_23', methods=['GET'])
+def calculate_male_23():
+    conn = sqlite3.connect('user_data.db')
+    c = conn.cursor()
+    c.execute('''
+        SELECT m.*
+        FROM measurements m
+        JOIN users u ON m.user_id = u.id
+        WHERE u.gender = 'male' AND
+              strftime('%Y', 'now') - strftime('%Y', u.birthdate) = 23
+    ''')
+    data = c.fetchall()
+    conn.close()
+    return jsonify(data)
     app.run(debug=True, use_reloader=False)
