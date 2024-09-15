@@ -115,6 +115,7 @@
                             deleteRow(row[0]); // Assuming ID is the first column
                         };
                         deleteCell.appendChild(deleteButton);
+                    const labels = data.map(row => row[2]); // Assuming date is the third column
                     const weights = data.map(row => row[3]); // Assuming weight is the fourth column
 
                     chart.data.labels = labels;
