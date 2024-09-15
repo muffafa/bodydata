@@ -36,10 +36,6 @@
                 <label for="waist">Waist Circumference (cm):</label>
                 <input type="number" id="waist" name="waist" required>
             </div>
-            <div class="form-group">
-                <label for="hip">Hip Circumference (cm):</label>
-                <input type="number" id="hip" name="hip" required>
-            </div>
             <button type="submit">Add Measurement</button>
         </form>
 
@@ -72,7 +68,6 @@
                 height: document.getElementById('height').value,
                 neck: document.getElementById('neck').value,
                 waist: document.getElementById('waist').value,
-                hip: document.getElementById('hip').value
             };
             fetch('/add_measurement', {
                 method: 'POST',

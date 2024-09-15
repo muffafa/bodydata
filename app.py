@@ -51,10 +51,10 @@ def add_measurement():
     c.execute('SELECT id FROM users WHERE nickname = ?', ('standard_user',))
     user_id = c.fetchone()[0]
     c.execute('''
-        INSERT INTO measurements (user_id, date, weight, height, neck, waist, hip)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO measurements (user_id, date, weight, height, neck, waist)
+        VALUES (?, ?, ?, ?, ?, ?)
     ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
-          data['neck'], data['waist'], data['hip']))
+          data['neck'], data['waist']))
     conn.commit()
     conn.close()
     return jsonify({'status': 'Measurement added successfully'})
