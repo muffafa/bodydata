@@ -98,6 +98,7 @@ def get_last_measurement():
     last_measurement = c.fetchone()
     conn.close()
     return jsonify(last_measurement)
+@app.route('/get_measurements', methods=['GET'])
 def get_measurements():
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
