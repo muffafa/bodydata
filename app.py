@@ -134,11 +134,13 @@ def delete_measurement(measurement_id):
         c.execute('DELETE FROM measurements WHERE id = ?', (measurement_id,))
         conn.commit()
         response = jsonify({'status': 'Measurement deleted successfully'})
+        status_code = 200
     except Exception as e:
         response = jsonify({'status': 'Error deleting measurement', 'error': str(e)})
+        status_code = 500
     finally:
         conn.close()
-    return response, 200
+    return response, status_code
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
