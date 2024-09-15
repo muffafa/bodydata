@@ -101,6 +101,20 @@
                 .catch(error => console.error('Error fetching measurements:', error));
         }
 
+        // Prefill form with last measurement
+        fetch('/get_last_measurement')
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.getElementById('weight').value = data[0];
+                    document.getElementById('height').value = data[1];
+                    document.getElementById('neck').value = data[2];
+                    document.getElementById('waist').value = data[3];
+                    document.getElementById('hip').value = data[4];
+                }
+            })
+            .catch(error => console.error('Error fetching last measurement:', error));
+
         loadData();
 
 
