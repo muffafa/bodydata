@@ -39,11 +39,45 @@
             <button type="submit">Add Measurement</button>
         </form>
 
+        <table id="dataTable" border="1" style="margin-top: 20px; width: 100%;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Date</th>
+                    <th>Weight</th>
+                    <th>Height</th>
+                    <th>Neck</th>
+                    <th>Waist</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
         <canvas id="chart" width="400" height="200" style="margin-top: 20px;"></canvas>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script>
+        function loadData() {
+            fetch('/get_measurements')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+                    data.forEach(row => {
+                        const newRow = tableBody.insertRow();
+                        row.forEach(cell => {
+                            const newCell = newRow.insertCell();
+                            newCell.textContent = cell;
+                        });
+                    });
+                });
+        }
+
+        loadData();
+
         document.getElementById('userForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const data = {

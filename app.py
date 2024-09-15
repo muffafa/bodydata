@@ -73,4 +73,13 @@ def calculate_male_23():
     data = c.fetchall()
     conn.close()
     return jsonify(data)
-    app.run(debug=True, use_reloader=False)
+@app.route('/get_measurements', methods=['GET'])
+def get_measurements():
+    conn = sqlite3.connect('user_data.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM measurements')
+    data = c.fetchall()
+    conn.close()
+    return jsonify(data)
+
+app.run(debug=True, use_reloader=False)
