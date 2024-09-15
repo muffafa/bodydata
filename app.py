@@ -128,9 +128,9 @@ def get_measurements():
 
 @app.route('/delete_measurement/<int:measurement_id>', methods=['DELETE'])
 def delete_measurement(measurement_id):
-    conn = sqlite3.connect('user_data.db')
-    c = conn.cursor()
     try:
+        conn = sqlite3.connect('user_data.db')
+        c = conn.cursor()
         c.execute('DELETE FROM measurements WHERE id = ?', (measurement_id,))
         conn.commit()
         response = jsonify({'status': 'Measurement deleted successfully'})
@@ -138,7 +138,7 @@ def delete_measurement(measurement_id):
         response = jsonify({'status': 'Error deleting measurement', 'error': str(e)})
     finally:
         conn.close()
-    return response
+    return response, 200
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
