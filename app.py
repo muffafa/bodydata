@@ -11,8 +11,6 @@ def init_db():
         os.remove('user_data.db')
         print("Existing database removed.")
     print("Initializing database...")
-    print("Adding measurement...")
-    print("Fetching measurements...")
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
     c.execute('''
@@ -36,12 +34,8 @@ def init_db():
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
-    c.execute('''
-        INSERT INTO users (nickname, gender, birthdate)
-        VALUES ('standard_user', 'male', '2001-09-15')
-    ''')
     conn.commit()
-    print("Database initialized and user added.")
+    print("Database initialized.")
     conn.close()
 
 init_db()
