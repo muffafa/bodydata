@@ -24,12 +24,19 @@
         <nav>
             <ul style="list-style-type: none; padding: 0; display: flex; justify-content: space-around; background-color: #f1f1f1; margin-bottom: 20px;">
                 <li><a href="/" style="text-decoration: none; padding: 10px 20px; display: block; color: black;">Home</a></li>
-                <li><a href="#Table" class="tablink" style="text-decoration: none; padding: 10px 20px; display: block; color: black;" onclick="openTab(event, 'Table')">Table</a></li>
-                <li><a href="#Chart" class="tablink" style="text-decoration: none; padding: 10px 20px; display: block; color: black;" onclick="openTab(event, 'Chart')">Weight Graph</a></li>
+                <li><a href="#AddData" class="tablink" style="text-decoration: none; padding: 10px 20px; display: block; color: black;" onclick="openTab(event, 'AddData')">Add Body Data</a></li>
+                <li><a href="#Table" class="tablink" style="text-decoration: none; padding: 10px 20px; display: block; color: black;" onclick="openTab(event, 'Table')">Data Table</a></li>
+                <li><a href="#Chart" class="tablink" style="text-decoration: none; padding: 10px 20px; display: block; color: black;" onclick="openTab(event, 'Chart')">Data Graph</a></li>
             </ul>
         </nav>
 
-        <form id="measurementForm" style="margin-top: 20px;">
+        <div id="Home" class="tabcontent">
+            <h2>Welcome to the Health Tracker App</h2>
+            <p>This app helps you track your body measurements and calculate your body fat percentage. You can add your body data, view it in a table, and see your progress in a graph.</p>
+        </div>
+
+        <div id="AddData" class="tabcontent" style="display:none;">
+            <form id="measurementForm" style="margin-top: 20px;">
             <div class="form-group">
                 <label for="user_id">User ID:</label>
                 <input type="number" id="user_id" name="user_id" required>
@@ -67,9 +74,7 @@
             <button type="submit">Add Measurement</button>
         </form>
 
-        <div class="tabs">
-            <button class="tablink" onclick="openTab(event, 'Table')">Table</button>
-            <button class="tablink" onclick="openTab(event, 'Chart')">Weight Graph</button>
+            </form>
         </div>
 
         <div id="Table" class="tabcontent">
