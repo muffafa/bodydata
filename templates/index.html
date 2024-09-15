@@ -73,7 +73,14 @@
                             const newCell = newRow.insertCell();
                             newCell.textContent = cell;
                         });
-                    });
+                    // Update chart data
+                    const labels = data.map(row => row[2]); // Assuming date is the third column
+                    const weights = data.map(row => row[3]); // Assuming weight is the fourth column
+
+                    chart.data.labels = labels;
+                    chart.data.datasets[0].data = weights;
+                    chart.update();
+                })
                 })
                 .catch(error => console.error('Error fetching measurements:', error));
         }
