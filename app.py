@@ -7,9 +7,6 @@ app = Flask(__name__)
 
 # Database setup
 def init_db():
-    if os.path.exists('user_data.db'):
-        os.remove('user_data.db')
-        print("Existing database removed.")
     print("Initializing database...")
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
