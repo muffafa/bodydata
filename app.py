@@ -57,11 +57,14 @@ def add_measurement():
     c = conn.cursor()
     c.execute('SELECT id FROM users WHERE nickname = ?', ('standard_user',))
     user_id = c.fetchone()[0]
-    c.execute('''
-        INSERT INTO measurements (user_id, date, weight, height, neck, waist)
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
-          data['neck'], data['waist']))
+    if user_id is not None:
+        c.execute('''
+            INSERT INTO measurements (user_id, date, weight, height, neck, waist)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
+              data['neck'], data['waist']))
+    else:
+        return jsonify({'status': 'Error: User not found'}), 400
     conn.commit()
     conn.close()
     print("Measurement added successfully.")
