@@ -42,16 +42,6 @@ init_db()
 def index():
     return render_template('index.html')
 
-@app.route('/add_user', methods=['POST'])
-def add_user():
-    data = request.json
-    conn = sqlite3.connect('user_data.db')
-    c = conn.cursor()
-    c.execute('INSERT INTO users (nickname, gender, birthdate) VALUES (?, ?, ?)',
-              (data['nickname'], data['gender'], data['birthdate']))
-    conn.commit()
-    conn.close()
-    return jsonify({'status': 'User added successfully'})
 
 @app.route('/add_measurement', methods=['POST'])
 def add_measurement():
