@@ -13,7 +13,10 @@
         input { width: 100%; padding: 8px; box-sizing: border-box; }
         button { padding: 10px 15px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
         button:hover { background-color: #0056b3; }
-    </style>
+        .tabcontent { display: none; }
+        .tablink { background-color: #f1f1f1; color: black; padding: 10px 20px; cursor: pointer; }
+        .tablink:hover { background-color: #ddd; }
+        .tablink.active { background-color: #ccc; }
 </head>
 <body>
     <div class="container">
@@ -57,29 +60,38 @@
             <button type="submit">Add Measurement</button>
         </form>
 
-        <table id="dataTable" border="1" style="margin-top: 20px; width: 100%;">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>User ID</th>
-                    <th>Date</th>
-                    <th>Weight</th>
-                    <th>Height</th>
-                    <th>Neck</th>
-                    <th>Waist</th>
-                    <th>Hip</th>
-                    <th>Gender</th>
-                    <th>Age</th>
-                    <th>Body Fat %</th>
-                    <th>TDEE Link</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="tabs">
+            <button class="tablink" onclick="openTab(event, 'Table')">Table</button>
+            <button class="tablink" onclick="openTab(event, 'Chart')">Weight Graph</button>
+        </div>
 
-        <canvas id="chart" width="400" height="200" style="margin-top: 20px;"></canvas>
+        <div id="Table" class="tabcontent">
+            <table id="dataTable" border="1" style="margin-top: 20px; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Date</th>
+                        <th>Weight</th>
+                        <th>Height</th>
+                        <th>Neck</th>
+                        <th>Waist</th>
+                        <th>Hip</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Body Fat %</th>
+                        <th>TDEE Link</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="Chart" class="tabcontent" style="display:none;">
+            <canvas id="chart" width="400" height="200" style="margin-top: 20px;"></canvas>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
@@ -139,6 +151,23 @@
                 }
             })
             .catch(error => console.error('Error fetching last measurement:', error));
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Set default tab
+        document.getElementsByClassName('tablink')[0].click();
 
         loadData();
 
