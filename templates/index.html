@@ -54,6 +54,9 @@
                     <th>Neck</th>
                     <th>Waist</th>
                     <th>Hip</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Body Fat %</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,7 +80,14 @@
                         for (let i = 0; i < row.length; i++) {
                             const newCell = newRow.insertCell();
                             newCell.textContent = row[i] !== null ? row[i] : '';
-                        }
+                        const genderCell = newRow.insertCell();
+                        genderCell.textContent = row[8];
+
+                        const ageCell = newRow.insertCell();
+                        ageCell.textContent = row[9];
+
+                        const bodyFatCell = newRow.insertCell();
+                        bodyFatCell.textContent = row[10].toFixed(2);
                     // Update chart data
                     const labels = data.map(row => row[2]); // Assuming date is the third column
                     const weights = data.map(row => row[3]); // Assuming weight is the fourth column

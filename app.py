@@ -89,7 +89,12 @@ def calculate_male_23():
 def get_measurements():
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
-    c.execute('SELECT * FROM measurements')
+    c.execute('''
+        SELECT m.*, u.gender, 
+               (strftime('%Y', 'now') - strftime('%Y', u.birthdate)) AS age
+        FROM measurements m
+        JOIN users u ON m.user_id = u.id
+    ''')
     data = c.fetchall()
     conn.close()
     return jsonify(data)
