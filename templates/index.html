@@ -71,6 +71,7 @@
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Body Fat %</th>
+                    <th>TDEE Link</th>
                 </tr>
             </thead>
             <tbody>
@@ -103,7 +104,9 @@
 
                         const bodyFatCell = newRow.insertCell();
                         bodyFatCell.textContent = row[10].toFixed(2);
-                    // Update chart data
+                        const tdeeCell = newRow.insertCell();
+                        const tdeeLink = `https://tdeecalculator.net/result.php?age=${row[9]}&gender=${row[8]}&weight=${row[3]}&height=${row[4]}`;
+                        tdeeCell.innerHTML = `<a href="${tdeeLink}" target="_blank">Calculate TDEE</a>`;
                     const labels = data.map(row => row[2]); // Assuming date is the third column
                     const weights = data.map(row => row[3]); // Assuming weight is the fourth column
 
