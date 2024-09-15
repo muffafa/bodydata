@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, render_template
 import sqlite3
 from datetime import datetime
@@ -6,6 +7,9 @@ app = Flask(__name__)
 
 # Database setup
 def init_db():
+    if os.path.exists('user_data.db'):
+        os.remove('user_data.db')
+        print("Existing database removed.")
     print("Initializing database...")
     print("Adding measurement...")
     print("Fetching measurements...")
