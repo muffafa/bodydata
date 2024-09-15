@@ -176,6 +176,10 @@
             }
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
+
+            if (tabName === 'Table') {
+                loadData();
+            }
         }
 
         // Set default tab
