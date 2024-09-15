@@ -29,6 +29,10 @@ def init_db():
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
     ''')
+    c.execute('''
+        INSERT INTO users (nickname, gender, birthdate)
+        VALUES ('standard_user', 'male', '2001-09-15')
+    ''')
     conn.commit()
     conn.close()
 
