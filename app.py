@@ -59,10 +59,10 @@ def add_measurement():
     user_id = c.fetchone()[0]
     if user_id is not None:
         c.execute('''
-            INSERT INTO measurements (user_id, date, weight, height, neck, waist)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO measurements (user_id, date, weight, height, neck, waist, hip)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
-              data['neck'], data['waist']))
+              data['neck'], data['waist'], data['hip']))
     else:
         return jsonify({'status': 'Error: User not found'}), 400
     conn.commit()
