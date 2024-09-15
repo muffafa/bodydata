@@ -69,10 +69,10 @@
                     tableBody.innerHTML = '';
                     data.forEach(row => {
                         const newRow = tableBody.insertRow();
-                        row.forEach(cell => {
+                        for (let i = 0; i < row.length; i++) {
                             const newCell = newRow.insertCell();
-                            newCell.textContent = cell;
-                        });
+                            newCell.textContent = row[i] !== null ? row[i] : '';
+                        }
                     // Update chart data
                     const labels = data.map(row => row[2]); // Assuming date is the third column
                     const weights = data.map(row => row[3]); // Assuming weight is the fourth column
