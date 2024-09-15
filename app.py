@@ -105,8 +105,10 @@ def get_measurements():
         bmi = weight / ((height / 100) ** 2)
         if gender == 'male':
             body_fat_percentage = (1.20 * bmi) + (0.23 * age) - 16.2
-        else:
+        elif gender == 'female':
             body_fat_percentage = (1.20 * bmi) + (0.23 * age) - 5.4
+        else:
+            body_fat_percentage = None  # Handle cases where gender is not specified
         result.append(row + (body_fat_percentage,))
 
     return jsonify(result)
