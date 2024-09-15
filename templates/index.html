@@ -140,6 +140,9 @@
                 neck: document.getElementById('neck').value,
                 waist: document.getElementById('waist').value,
                 hip: document.getElementById('hip').value,
+                user_id: document.getElementById('user_id').value,
+                gender: document.getElementById('gender').value,
+                age: document.getElementById('age').value,
             };
             fetch('/add_measurement', {
                 method: 'POST',

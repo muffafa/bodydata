@@ -55,14 +55,19 @@ def add_measurement():
     data = request.json
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
-    c.execute('SELECT id FROM users WHERE nickname = ?', ('standard_user',))
-    user_id = c.fetchone()[0]
-    if user_id is not None:
-        c.execute('''
-            INSERT INTO measurements (user_id, date, weight, height, neck, waist, hip)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
-              data['neck'], data['waist'], data['hip']))
+    user_id = data['user_id']
+    gender = data['gender']
+    age = data['age']
+    c.execute('''
+        INSERT INTO users (id, gender, birthdate)
+        VALUES (?, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET gender=excluded.gender, birthdate=excluded.birthdate
+    ''', (user_id, gender, str(datetime.now().year - int(age)) + '-01-01'))
+    c.execute('''
+        INSERT INTO measurements (user_id, date, weight, height, neck, waist, hip)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
+          data['neck'], data['waist'], data['hip']))
     else:
         return jsonify({'status': 'Error: User not found'}), 400
     conn.commit()
