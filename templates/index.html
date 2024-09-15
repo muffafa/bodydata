@@ -64,6 +64,7 @@
             fetch('/get_measurements')
                 .then(response => response.json())
                 .then(data => {
+                    console.log("Fetched data:", data);
                     const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = '';
                     data.forEach(row => {
@@ -73,7 +74,8 @@
                             newCell.textContent = cell;
                         });
                     });
-                });
+                })
+                .catch(error => console.error('Error fetching measurements:', error));
         }
 
         loadData();
