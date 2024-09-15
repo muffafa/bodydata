@@ -68,8 +68,6 @@ def add_measurement():
         VALUES (?, ?, ?, ?, ?, ?, ?)
     ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
           data['neck'], data['waist'], data['hip']))
-    else:
-        return jsonify({'status': 'Error: User not found'}), 400
     conn.commit()
     conn.close()
     print("Measurement added successfully.")
