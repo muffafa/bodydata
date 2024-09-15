@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from add_data import add_measurement
 from data_table import get_measurements
 from data_graph import get_last_measurement
