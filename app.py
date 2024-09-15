@@ -126,4 +126,14 @@ def get_measurements():
 
     return jsonify(result)
 
-app.run(debug=True, use_reloader=False)
+@app.route('/delete_measurement/<int:measurement_id>', methods=['DELETE'])
+def delete_measurement(measurement_id):
+    conn = sqlite3.connect('user_data.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM measurements WHERE id = ?', (measurement_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'status': 'Measurement deleted successfully'})
+
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)

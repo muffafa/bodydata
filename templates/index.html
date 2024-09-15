@@ -72,6 +72,7 @@
                     <th>Age</th>
                     <th>Body Fat %</th>
                     <th>TDEE Link</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -107,7 +108,13 @@
                         const tdeeCell = newRow.insertCell();
                         const tdeeLink = `https://tdeecalculator.net/result.php?s=metric&g=${row[8]}&age=${row[9]}&kg=${row[3]}&cm=${row[4]}&act=1.2&bf=${row[10].toFixed(2)}&f=1`;
                         tdeeCell.innerHTML = `<a href="${tdeeLink}" target="_blank">Calculate TDEE</a>`;
-                    const labels = data.map(row => row[2]); // Assuming date is the third column
+                        const deleteCell = newRow.insertCell();
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.onclick = function() {
+                            deleteRow(row[0]); // Assuming ID is the first column
+                        };
+                        deleteCell.appendChild(deleteButton);
                     const weights = data.map(row => row[3]); // Assuming weight is the fourth column
 
                     chart.data.labels = labels;
@@ -156,7 +163,17 @@
             });
         });
 
-        // Example chart setup
+        function deleteRow(id) {
+            fetch(`/delete_measurement/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.status);
+                loadData(); // Refresh the table data
+            })
+            .catch(error => console.error('Error deleting measurement:', error));
+        }
         const ctx = document.getElementById('chart').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'line',
