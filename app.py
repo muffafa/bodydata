@@ -48,10 +48,12 @@ def add_measurement():
     data = request.json
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
+    c.execute('SELECT id FROM users WHERE nickname = ?', ('standard_user',))
+    user_id = c.fetchone()[0]
     c.execute('''
         INSERT INTO measurements (user_id, date, weight, height, neck, waist, hip)
         VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (data['user_id'], datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
+    ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
           data['neck'], data['waist'], data['hip']))
     conn.commit()
     conn.close()
