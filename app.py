@@ -130,10 +130,15 @@ def get_measurements():
 def delete_measurement(measurement_id):
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
-    c.execute('DELETE FROM measurements WHERE id = ?', (measurement_id,))
-    conn.commit()
-    conn.close()
-    return jsonify({'status': 'Measurement deleted successfully'})
+    try:
+        c.execute('DELETE FROM measurements WHERE id = ?', (measurement_id,))
+        conn.commit()
+        response = jsonify({'status': 'Measurement deleted successfully'})
+    except Exception as e:
+        response = jsonify({'status': 'Error deleting measurement', 'error': str(e)})
+    finally:
+        conn.close()
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
