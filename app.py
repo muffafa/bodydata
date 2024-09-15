@@ -1,5 +1,8 @@
 import os
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, render_template
+from add_data import add_measurement
+from data_table import get_measurements
+from data_graph import get_last_measurement
 import sqlite3
 from datetime import datetime
 
@@ -48,27 +51,8 @@ def index():
 
 
 @app.route('/add_measurement', methods=['POST'])
-def add_measurement():
-    data = request.json
-    conn = sqlite3.connect('user_data.db')
-    c = conn.cursor()
-    user_id = data['user_id']
-    gender = data['gender']
-    age = data['age']
-    c.execute('''
-        INSERT INTO users (id, gender, birthdate)
-        VALUES (?, ?, ?)
-        ON CONFLICT(id) DO UPDATE SET gender=excluded.gender, birthdate=excluded.birthdate
-    ''', (user_id, gender, str(datetime.now().year - int(age)) + '-01-01'))
-    c.execute('''
-        INSERT INTO measurements (user_id, date, weight, height, neck, waist, hip)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (user_id, datetime.now().strftime('%Y-%m-%d'), data['weight'], data['height'],
-          data['neck'], data['waist'], data['hip']))
-    conn.commit()
-    conn.close()
-    print("Measurement added successfully.")
-    return jsonify({'status': 'Measurement added successfully'})
+def add_measurement_route():
+    return add_measurement()
 
 @app.route('/calculate_male_23', methods=['GET'])
 def calculate_male_23():
@@ -86,45 +70,11 @@ def calculate_male_23():
     print(f"Fetched data: {data}")
     return jsonify(data)
 @app.route('/get_last_measurement', methods=['GET'])
-def get_last_measurement():
-    conn = sqlite3.connect('user_data.db')
-    c = conn.cursor()
-    c.execute('''
-        SELECT weight, height, neck, waist, hip
-        FROM measurements
-        ORDER BY id DESC
-        LIMIT 1
-    ''')
-    last_measurement = c.fetchone()
-    conn.close()
-    return jsonify(last_measurement)
+def get_last_measurement_route():
+    return get_last_measurement()
 @app.route('/get_measurements', methods=['GET'])
-def get_measurements():
-    conn = sqlite3.connect('user_data.db')
-    c = conn.cursor()
-    c.execute('''
-        SELECT m.*, u.gender, 
-               (strftime('%Y', 'now') - strftime('%Y', u.birthdate)) AS age
-        FROM measurements m
-        JOIN users u ON m.user_id = u.id
-    ''')
-    data = c.fetchall()
-    conn.close()
-
-    # Calculate body fat percentage
-    result = []
-    for row in data:
-        user_id, date, weight, height, neck, waist, hip, gender, age = row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]
-        bmi = weight / ((height / 100) ** 2)
-        if gender == 'male':
-            body_fat_percentage = (1.20 * bmi) + (0.23 * age) - 16.2
-        elif gender == 'female':
-            body_fat_percentage = (1.20 * bmi) + (0.23 * age) - 5.4
-        else:
-            body_fat_percentage = None  # Handle cases where gender is not specified
-        result.append(row + (body_fat_percentage,))
-
-    return jsonify(result)
+def get_measurements_route():
+    return get_measurements()
 
 @app.route('/delete_measurement/<int:measurement_id>', methods=['DELETE'])
 def delete_measurement(measurement_id):
