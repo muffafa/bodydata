@@ -188,8 +188,9 @@
             }
         }
 
-        // Set default tab
-        document.getElementsByClassName('tablink')[0].click();
+        // Set default tab to Home
+        document.getElementById('Home').style.display = "block";
+        document.getElementsByClassName('tablink')[0].className += " active";
 
         loadData();
 
