@@ -6,6 +6,9 @@ app = Flask(__name__)
 
 # Database setup
 def init_db():
+    print("Initializing database...")
+    print("Adding measurement...")
+    print("Fetching measurements...")
     conn = sqlite3.connect('user_data.db')
     c = conn.cursor()
     c.execute('''
@@ -34,6 +37,7 @@ def init_db():
         VALUES ('standard_user', 'male', '2001-09-15')
     ''')
     conn.commit()
+    print("Database initialized and user added.")
     conn.close()
 
 init_db()
@@ -57,6 +61,7 @@ def add_measurement():
           data['neck'], data['waist']))
     conn.commit()
     conn.close()
+    print("Measurement added successfully.")
     return jsonify({'status': 'Measurement added successfully'})
 
 @app.route('/calculate_male_23', methods=['GET'])
@@ -72,6 +77,7 @@ def calculate_male_23():
     ''')
     data = c.fetchall()
     conn.close()
+    print(f"Fetched data: {data}")
     return jsonify(data)
 @app.route('/get_measurements', methods=['GET'])
 def get_measurements():
