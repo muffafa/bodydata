@@ -80,21 +80,6 @@
 
         loadData();
 
-        loadData();
-            event.preventDefault();
-            const data = {
-                nickname: document.getElementById('nickname').value,
-                gender: document.getElementById('gender').value,
-                birthdate: document.getElementById('birthdate').value
-            };
-            fetch('/add_user', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then(response => response.json()).then(data => {
-                alert(data.status);
-            });
-        });
 
         document.getElementById('measurementForm').addEventListener('submit', function(event) {
             event.preventDefault();
